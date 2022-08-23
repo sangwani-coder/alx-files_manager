@@ -4,8 +4,7 @@ const dbClient = require('../utils/db');
 class AppController {
   static getStatus(request, response) {
     if (dbClient.isAlive() && redisClient.isAlive()) {
-      response.status(200);
-      response.json({ redis: redisClient.isAlive(), db: dbClient.isAlive() });
+      response.status(200).json({ redis: redisClient.isAlive(), db: dbClient.isAlive() });
     }
   }
 
@@ -13,8 +12,7 @@ class AppController {
     const users = await dbClient.nbUsers();
     const files = await dbClient.nbFiles();
 
-    response.status(200);
-    response.json({ users, files });
+    response.status(200).json({ users, files });
   }
 }
 
