@@ -32,17 +32,17 @@ class UsersController {
     return null;
   }
 
-  static async getMe(request, response) {
-    const token = request.headers['x-token'];
+  static async getMe(req, res) {
+    const token = req.headers['x-token'];
     const id = await redisClient.get(`auth_${token}`);
     const objectId = new mongo.ObjectID(id);
     const user = await dbClient.db.collection('users').findOne({ _id: objectId });
 
     if (!user) {
-      return response.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    return response.json({ id, email: user.email });
+    return res.json({ id, email: user.email });
   }
 }
 
