@@ -8,7 +8,7 @@ async function getAuthToken(request) {
 
 // checks authentication against verified information
 // returns userId of user
-async function findUserIdByToken(request) {
+async function findUserByTokenId(request) {
   const key = await getAuthToken(request);
   const userId = await redisClient.get(key);
   return userId || null;
@@ -22,5 +22,5 @@ async function findUserById(userId) {
 }
 
 export {
-  findUserIdByToken, findUserById,
+  findUserByTokenId, findUserById,
 };

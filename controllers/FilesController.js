@@ -1,10 +1,10 @@
-import { ObjectID } from 'mongodb';
-import fs from 'fs';
-import { v4 as uuidv4 } from 'uuid';
-import Queue from 'bull';
-import { findUserIdByToken } from '../utils/helpers';
-import dbClient from '../utils/db';
-import redisClient from '../utils/redis';
+const { ObjectID } = require('mongodb');
+const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
+const Queue = require('bull');
+const { findUserByTokenId } = require('../utils/helpers');
+const dbClient = require('../utils/db');
+const redisClient = require('../utils/redis');
 
 class FilesController {
   /**
@@ -13,7 +13,7 @@ class FilesController {
   static async postUpload(request, response) {
     const fileQueue = new Queue('fileQueue');
     // Retrieve the user based on the token
-    const userId = await findUserIdByToken(request);
+    const userId = await findUserByTokenId(request);
     if (!userId) return response.status(401).json({ error: 'Unauthorized' });
 
     let fileInserted;
